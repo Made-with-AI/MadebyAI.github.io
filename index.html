@@ -81,17 +81,35 @@
 
     <p class="text-center">Total Cards: <span id="card-count"></span></p>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <!-- Card template -->
-      <template id="card-template">
-        <div class="card shadow-lg rounded-lg p-4 hover:bg-blue-50">
-          <img src="https://via.placeholder.com/500" alt="Card Image" class="w-full h-40 object-cover rounded-t-lg">
-          <div class="p-4">
-            <h3 class="font-bold text-xl mb-2">Card Title</h3>
-            <p>Card Description</p>
-            <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg mt-2">Open HTML</button>
-          </div>
+      <!-- Card 1 -->
+      <div class="card shadow-lg rounded-lg p-4 hover:bg-blue-50">
+        <img src="https://via.placeholder.com/500" alt="Card Image" class="w-full h-40 object-cover rounded-t-lg">
+        <div class="p-4">
+          <h3 class="font-bold text-xl mb-2">TASK MASTER</h3>
+          <p>A simple and efficient web-based task management tool.</p>
+          <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg mt-2" data-href="card1.html">Open L</button>
         </div>
-      </template>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card shadow-lg rounded-lg p-4 hover:bg-blue-50">
+        <img src="https://via.placeholder.com/500" alt="Card Image" class="w-full h-40 object-cover rounded-t-lg">
+        <div class="p-4">
+          <h3 class="font-bold text-xl mb-2">Card 2</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg mt-2" data-href="card2.html">Open HTML</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card shadow-lg rounded-lg p-4 hover:bg-blue-50">
+        <img src="https://via.placeholder.com/500" alt="Card Image" class="w-full h-40 object-cover rounded-t-lg">
+        <div class="p-4">
+          <h3 class="font-bold text-xl mb-2">Card 3</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg mt-2" data-href="card3.html">Open HTML</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -99,14 +117,41 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     $(document).ready(function() {
-      // Define card data array
-      var cardData = [
-        {
-          title: "task mast",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          htmlFile: "TASK MASTER.html"
+      // Check local storage for dark mode preference
+      var darkMode = localStorage.getItem('darkMode');
+
+      // Function to enable dark mode
+      function enableDarkMode() {
+        $('body').addClass('dark-mode');
+        localStorage.setItem('darkMode', 'enabled');
+      }
+
+      // Function to disable dark mode
+      function disableDarkMode() {
+        $('body').removeClass('dark-mode');
+        localStorage.setItem('darkMode', 'disabled');
+      }
+
+      // Toggle dark mode on button click
+      $('#dark-mode-toggle').click(function() {
+        var currentMode = localStorage.getItem('darkMode');
+        if (currentMode === 'enabled') {
+          disableDarkMode();
+        } else {
+          enableDarkMode();
         }
-      ];
+      });
+
+      // Apply dark mode on page load if the user has previously enabled it
+      if (darkMode === 'enabled') {
+        enableDarkMode();
+      }
+
+      // Display total number of cards
+      var cardCount = $('.card').length;
+      $('#card-count').text(cardCount);
+
+      // Rest of your existing JavaScript code...
 
       // Search functionality
       $('#search-form').submit(function(e) {
@@ -123,33 +168,12 @@
         });
       });
 
-      // Generate cards from template
-      var cardContainer = $('#card-container .grid');
-      var cardTemplate = $('#card-template').html();
-      for (var i = 0; i < cardData.length; i++) {
-        var card = cardData[i];
-        var cardHtml = cardTemplate
-          .replace('Card Title', card.title)
-          .replace('Card Description', card.description)
-          .replace('card1.html', card.htmlFile);
-        cardContainer.append(cardHtml);
-      }
-
       // Open HTML file
-      cardContainer.on('click', '.card button', function() {
-        var index = $(this).closest('.card').index();
-        var htmlFile = cardData[index].htmlFile;
+      $('.card button').click(function() {
+        var htmlFile = $(this).data('href');
         window.open(htmlFile, '_blank');
       });
 
-      // Dark mode toggle
-      $('#dark-mode-toggle').click(function() {
-        $('body').toggleClass('dark-mode');
-      });
-
-      // Display total number of cards
-      var cardCount = cardData.length;
-      $('#card-count').text(cardCount);
     });
   </script>
 </body>
